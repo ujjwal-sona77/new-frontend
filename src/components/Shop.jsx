@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Buffer } from "buffer";
 import { Link } from "react-router-dom";
+import { newtonsCradle } from "ldrs";
+
+newtonsCradle.register();
 
 const Shop = () => {
   const [products, setProducts] = useState(null);
@@ -49,7 +52,11 @@ const Shop = () => {
   if (!products) {
     return (
       <div className="flex space-x-2 justify-center items-center bg-white h-screen dark:invert">
-        <l-waveform size="35" stroke="3.5" speed="1" color="black"></l-waveform>
+        <l-newtons-cradle
+          size="78"
+          speed="1.4"
+          color="black"
+        ></l-newtons-cradle>
       </div>
     );
   }
