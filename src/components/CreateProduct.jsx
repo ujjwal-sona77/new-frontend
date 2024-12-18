@@ -14,12 +14,12 @@ const CreateProduct = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/create/product`, { name, price, discount , image},  {withCredentials: true} ,{
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/create/product/`, { name, price, discount , image} ,{
         headers: {
           "Content-Type": "multipart/form-data",
         } 
       });
-      if(response.data.success){
+      if(response.data.success) {
         navigate("/owner/createproduct");
         setSuccess(response.data.message);
       }
