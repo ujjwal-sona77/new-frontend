@@ -14,27 +14,25 @@ const CreateProduct = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/create/product/`, { name, price, discount , image} ,{
-        headers: {
-          "Content-Type": "multipart/form-data",
-        } 
-      });
-      if(response.data.success) {
-        navigate("/owner/createproduct");
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/create/product`
+      , {name , image , discount , price});
+      if (response.data.success) {
+        navigate("/owner/createproduct")
         setSuccess(response.data.message);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err.message);
     }
-  }
+  };
 
   return (
     <>
-    {success && (
-      <div className="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg animate-fade-in-out">
-        {success}
-      </div>
-    )}
+      {success && (
+        <div className="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg animate-fade-in-out">
+          {success}
+        </div>
+      )}
       <div className="min-h-screen flex flex-col">
         <div className="container px-4 sm:px-6 lg:px-10 py-8 sm:py-12 lg:py-20 flex flex-col lg:flex-row flex-grow">
           {/* Sidebar */}
