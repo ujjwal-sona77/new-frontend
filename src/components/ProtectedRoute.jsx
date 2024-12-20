@@ -7,9 +7,11 @@ const ProtectedRoutes = () => {
 
 if (!token) {
     return <Navigate to="/login" state={{ message: "Please login first" }} />;
+} else {
+    return <Outlet />;
 }
 
-return <Outlet />;
+
 };
 
 export default ProtectedRoutes;
