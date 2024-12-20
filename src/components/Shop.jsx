@@ -112,6 +112,16 @@ const Shop = () => {
               >
                 Profile
               </Link>
+            <Link
+                to="/login"
+                onClick={() => {
+                    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                    window.location.reload();
+                }}
+                className="menu-transition text-gray-700 hover:text-blue-600 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-blue-600 hover:after:w-full after:transition-all"
+            >
+                Logout
+            </Link>
             </div>
 
             {/* Mobile Hamburger Menu Button */}
