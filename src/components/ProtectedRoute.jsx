@@ -1,17 +1,15 @@
-import React from "react";
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import React from 'react'
+import { Navigate, Outlet } from 'react-router-dom'
 
 const ProtectedRoutes = () => {
-  const navigate = useNavigate();
-  const token = document.cookie.split("=")[1];
+  const token = document.cookie.split('=')[1]
+  
+  if (!token) {
+    alert('Please login')
+    return <Navigate to="/login" />
+  }
 
-if (!token) {
-    return <Navigate to="/login" state={{ message: "Please login first" }} />;
-} else {
-    return <Outlet />;
+  return <Outlet />
 }
 
-
-};
-
-export default ProtectedRoutes;
+export default ProtectedRoutes
