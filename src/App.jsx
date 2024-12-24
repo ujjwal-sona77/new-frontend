@@ -15,19 +15,13 @@ const App = () => {
      <Route path="/login" element={<Login />} />
      <Route path='/' element={<SignUp />} />
         <Route path='/shop' element={
-            <ProtectedRoute>
                 <Shop />
-            </ProtectedRoute>
         } />
         <Route path='/user/profile' element={
-            <ProtectedRoute>
                 <Profile />
-            </ProtectedRoute>
         } />
         <Route path='/cart' element={
-            <ProtectedRoute>
                 <Cart />
-            </ProtectedRoute>
         } />
      <Route path='/owner/createproduct' element={<CreateProduct />} />
    </Routes>
