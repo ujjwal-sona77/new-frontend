@@ -90,21 +90,6 @@ const Login = (props) => {
               />
             </div>
 
-            <div className="flex items-center mb-6">
-              <div className="flex items-center">
-                <input
-                  id="remember"
-                  type="checkbox"
-                  className="w-4 h-4 rounded bg-gray-700 border-gray-600 focus:ring-blue-600 ring-offset-gray-800"
-                />
-                <label
-                  htmlFor="remember"
-                  className="ml-2 text-sm text-gray-300"
-                >
-                  Remember me
-                </label>
-              </div>
-            </div>
 
         {success && (
             <div className="mb-6 p-4 text-sm text-green-400 bg-green-800 rounded-lg">
