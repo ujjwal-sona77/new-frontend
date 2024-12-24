@@ -1,10 +1,16 @@
-import React from 'react'
-import { Navigate, Outlet } from 'react-router-dom'
+import React from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
-const ProtectedRoutes = () => {
-  const token = document.cookie.split("=")[1];
-  return token ? <Outlet /> : <Navigate to="/login" state={{ message: "Please login first" }} />;
+const ProtectedRoute = ({ redirectPath = '/login', children }) => {
+  // Check if the token exists in the cookie
+  const token = Cookies.get('token'); // Replace 'authToken' with your cookie name
+
+  if (!token) {
+    return <Navigate to={redirectPath} replace />;
+  }
+
+  return children ? children : <Outlet />;
 };
- 
 
-export default ProtectedRoutes
+export default ProtectedRoute;

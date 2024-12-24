@@ -14,11 +14,21 @@ const App = () => {
    <Routes>
      <Route path="/login" element={<Login />} />
      <Route path='/' element={<SignUp />} />
-     <Route element={<ProtectedRoute />}>
-        <Route path="/user/profile" element={<Profile />} />
-        <Route path="/shop" element={<Shop />} />
-        <Route path='/cart' element={<Cart />} />
-      </Route>
+        <Route path='/shop' element={
+            <ProtectedRoute>
+                <Shop />
+            </ProtectedRoute>
+        } />
+        <Route path='/user/profile' element={
+            <ProtectedRoute>
+                <Profile />
+            </ProtectedRoute>
+        } />
+        <Route path='/cart' element={
+            <ProtectedRoute>
+                <Cart />
+            </ProtectedRoute>
+        } />
      <Route path='/owner/createproduct' element={<CreateProduct />} />
    </Routes>
   )
