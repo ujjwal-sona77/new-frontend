@@ -20,7 +20,7 @@ const Login = (props) => {
       );
       if (response.data.success) {
         setSuccess("Sign up successful! Redirecting to Shop...");
-        setTimeout(() => navigate("/shop"), 6000);
+        setTimeout(() => navigate("/shop"), 1500);
         ;
       } else {
         setError(response.data.message || "Sign up failed");
