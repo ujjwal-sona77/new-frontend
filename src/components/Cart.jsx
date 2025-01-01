@@ -2,7 +2,6 @@ import { useState, useEffect, React } from "react";
 import axios from "axios";
 import Buffer from "buffer";
 import { Link } from "react-router-dom";
-import { newtonsCradle } from "ldrs";
 
 const Cart = () => {
   const [user, setUser] = useState({});
@@ -28,21 +27,19 @@ const Cart = () => {
 
   const getUser = async () => {
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/user/profile/${email}`
-      );
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user/profile/${email}`);
       setUser(response.data.user);
       if (response.data.user.cart) {
         // Group same products and add quantities
         const groupedCart = response.data.user.cart.reduce((acc, item) => {
-          const existingItem = acc.find((i) => i._id === item._id);
+          const existingItem = acc.find(i => i._id === item._id);
           if (existingItem) {
             existingItem.quantity = (existingItem.quantity || 1) + 1;
             return acc;
           }
-          return [...acc, { ...item, quantity: 1 }];
+          return [...acc, {...item, quantity: 1}];
         }, []);
-
+        
         setCartItems(groupedCart);
         calculateSubtotal(groupedCart);
       }
@@ -70,17 +67,9 @@ const Cart = () => {
   const handleQuantityChange = async (itemId, action) => {
     try {
       if (action === "increase") {
-        await axios.post(
-          `${
-            import.meta.env.VITE_BACKEND_URL
-          }/api/cart/increase/${itemId}/${email}`
-        );
+        await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/cart/increase/${itemId}/${email}`);
       } else if (action === "decrease") {
-        await axios.post(
-          `${
-            import.meta.env.VITE_BACKEND_URL
-          }/api/cart/decrease/${itemId}/${email}`
-        );
+        await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/cart/decrease/${itemId}/${email}`);
       }
     } catch (err) {
       setError(err.response?.data?.message || "Error updating quantity");
@@ -89,9 +78,7 @@ const Cart = () => {
 
   const handleRemoveItem = async (itemId) => {
     try {
-      await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/cart/remove/${itemId}/${email}`
-      );
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/cart/remove/${itemId}/${email}`);
     } catch (err) {
       setError(err.response?.data?.message || "Error removing item");
     }
@@ -99,31 +86,7 @@ const Cart = () => {
 
   const shipping = cartItems.length > 0 ? 50 : 0;
   const total = subtotal + shipping;
-  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        await getUser();
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="flex space-x-2 justify-center items-center bg-white h-screen dark:invert">
-        <l-newtons-cradle
-          size="78"
-          speed="1.4"
-          color="black"
-        ></l-newtons-cradle>
-      </div>
-    );
-  }
   return (
     <>
       <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200 fixed w-full z-50 dark:bg-gray-900/80 dark:border-gray-700">
@@ -307,11 +270,11 @@ const Cart = () => {
                     <span>₹{total.toFixed(2)}</span>
                   </div>
                 </div>
-                <Link
-                  to="/checkout"
-                  className="w-full mt- bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-[1.02]"
-                >
-                  Proceed to Checkout
+                  <Link
+                    to="/checkout"
+                    className="w-full mt- bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-[1.02]"
+                  >
+                    Proceed to Checkout
                 </Link>
               </div>
             </div>

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Buffer } from "buffer";
 import { Link, useNavigate } from "react-router-dom";
-import { newtonsCradle } from "ldrs";
 const Profile = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
@@ -37,12 +36,8 @@ const Profile = () => {
 
   if (!user) {
     return (
-        <div className="flex space-x-2 justify-center items-center bg-white h-screen dark:invert">
-        <l-newtons-cradle
-          size="78"
-          speed="1.4"
-          color="black"
-        ></l-newtons-cradle>
+      <div className="flex space-x-2 justify-center items-center bg-white h-screen dark:invert">
+        <l-waveform size="35" stroke="3.5" speed="1" color="black"></l-waveform>
       </div>
     );
   }

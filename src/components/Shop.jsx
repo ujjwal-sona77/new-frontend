@@ -1,21 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Buffer } from "buffer";
-import { Link } from "react-router-dom";
-import { newtonsCradle } from "ldrs";
+import Buffer from "buffer";
+import "ldrs/waveform";
+import { useParams, Link } from "react-router-dom";
 
-newtonsCradle.register();
 
 const Shop = () => {
   const [products, setProducts] = useState(null);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
   const [user, setUser] = useState({});
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
 
   const getEmailFromToken = () => {
     const token = document.cookie.split("=")[1];
@@ -57,20 +51,16 @@ const Shop = () => {
   if (!products) {
     return (
       <div className="flex space-x-2 justify-center items-center bg-white h-screen dark:invert">
-        <l-newtons-cradle
-          size="78"
-          speed="1.4"
-          color="black"
-        ></l-newtons-cradle>
+        <l-waveform size="35" stroke="3.5" speed="1" color="black"></l-waveform>
       </div>
     );
   }
 
   return (
     <>
-      <nav className="fixed w-full z-[80] bg-white/80 backdrop-blur-md shadow-lg">
+      <nav className="fixed w-full z-50 bg-white/80 backdrop-blur-md shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between h-16">
             <div className="flex items-center">
               <Link to="/" className="flex items-center group">
                 <img
@@ -84,7 +74,6 @@ const Shop = () => {
               </Link>
             </div>
 
-            {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-6">
               <Link
                 to="/shop"
@@ -107,114 +96,15 @@ const Shop = () => {
                 Cart
               </Link>
               <Link
-                to="/user/profile"
+                to="/profile"
                 className="menu-transition text-gray-700 hover:text-blue-600 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-blue-600 hover:after:w-full after:transition-all"
               >
                 Profile
               </Link>
-            <Link
-                to="/login"
-                onClick={() => {
-                    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                    window.location.reload();
-                }}
-                className="menu-transition text-gray-700 hover:text-blue-600 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-blue-600 hover:after:w-full after:transition-all"
-            >
-                Logout
-            </Link>
-            </div>
-
-            {/* Mobile Hamburger Menu Button */}
-            <div className="md:hidden flex items-center">
-              <button
-                onClick={toggleMobileMenu}
-                className="text-gray-700 focus:outline-none"
-              >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h16M4 18h16"
-                  ></path>
-                </svg>
-              </button>
             </div>
           </div>
         </div>
       </nav>
-
-      {/* Mobile Menu */}
-      <div
-        className={`md:hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-40 ${
-          isMobileMenuOpen ? "block" : "hidden"
-        }`}
-        onClick={toggleMobileMenu}
-      >
-        <div
-          className={`transform transition-transform duration-500 ${
-            isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-          } fixed top-0 left-0 w-3/4 h-full bg-white shadow-lg z-50 p-4`}
-        >
-          <div className="flex justify-end mb-4">
-            <button
-              onClick={toggleMobileMenu}
-              className="text-gray-700 focus:outline-none"
-            >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M6 18L18 6M6 6l12 12"
-                ></path>
-              </svg>
-            </button>
-          </div>
-          <div className="flex flex-col items-start space-y-6">
-            <Link
-              to="/shop"
-              className="text-gray-900 text-lg hover:text-blue-500"
-              onClick={toggleMobileMenu}
-            >
-              Shop
-            </Link>
-            {user?.isAdmin && (
-              <Link
-                to="/owner/createproduct"
-                className="text-gray-900 text-lg hover:text-blue-500"
-                onClick={toggleMobileMenu}
-              >
-                Create Product
-              </Link>
-            )}
-            <Link
-              to="/cart"
-              className="text-gray-900 text-lg hover:text-blue-500"
-              onClick={toggleMobileMenu}
-            >
-              Cart
-            </Link>
-            <Link
-              to="/user/profile"
-              className="text-gray-900 text-lg hover:text-blue-500"
-              onClick={toggleMobileMenu}
-            >
-              Profile
-            </Link>
-          </div>
-        </div>
-      </div>
 
       <main
         className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto"
@@ -282,7 +172,6 @@ const Shop = () => {
                 </Link>
               </div>
             </div>
-
             {success && (
               <div className="mt-4 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="bg-gradient-to-r from-green-500 to-green-600 text-white p-4 rounded-lg shadow-lg">
@@ -323,7 +212,7 @@ const Shop = () => {
                 >
                   <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden bg-gray-50">
                     <img
-                      src={`data:image/jpeg;base64,${Buffer.from(
+                      src={`data:image/jpeg;base64,${Buffer.Buffer.from(
                         product.image
                       ).toString("base64")}`}
                       alt={product.name}
@@ -347,6 +236,7 @@ const Shop = () => {
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">
                       {product.name}
                     </h3>
+
                     <div className="flex items-end justify-between">
                       <div>
                         {product.discount ? (
@@ -368,9 +258,7 @@ const Shop = () => {
                         onClick={async () => {
                           try {
                             await axios.post(
-                              `${
-                                import.meta.env.VITE_BACKEND_URL
-                              }/api/cart/add/${product._id}/${email}`
+                              `${import.meta.env.VITE_BACKEND_URL}/api/cart/add/${product._id}/${email}`
                             );
                             setSuccess("Added to cart successfully!");
                           } catch (err) {

@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const Login = (props) => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const navigate = useNavigate();
-  const state = useLocation();
-  const { error_props } = state;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -19,34 +17,29 @@ const Login = (props) => {
         { withCredentials: true }
       );
       if (response.data.success) {
-        setSuccess("Sign up successful! Redirecting to Shop...");
-        setTimeout(() => navigate("/shop"), 1500);
-        ;
-      } else {
-        setError(response.data.message || "Sign up failed");
+        navigate("/shop");
+      } else if (response.data.message && !response.data.success) {
+        setError(response.data.message);
       }
-
-      setEmail("");
-      setPassword("");
     } catch (error) {
       console.log(error);
     }
   };
 
-  const location = useLocation();
-  const message = location.state?.message;
-
   return (
     <>
-      {(error || message) && (
+      {error && (
         <div className="fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg animate-fade-in-out">
-          {error || message || error_props}
+          {error}
         </div>
       )}
       <main className="bg-zinc-800 min-h-screen">
-        <nav className="flex justify-between items-center p-4 sm:p-6 bg-zinc-800 text-white" />
-        <span className="ml-2 text-xl font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"></span>
-        getFast
+        <nav className="flex justify-between items-center p-4 sm:p-6 bg-zinc-800 text-white">
+          <span className="ml-2 text-xl font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            getFast
+          </span>
+        </nav>
+
         <div className="px-4 py-8 sm:py-12">
           <form
             onSubmit={handleSubmit}
@@ -66,7 +59,6 @@ const Login = (props) => {
                 id="email"
                 className="w-full p-3 text-sm rounded-lg bg-gray-700 border border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                 placeholder="name@example.com"
-                value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
@@ -82,7 +74,6 @@ const Login = (props) => {
               <input
                 type="password"
                 name="password"
-                value={password}
                 id="password"
                 className="w-full p-3 text-sm rounded-lg bg-gray-700 border border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                 onChange={(e) => setPassword(e.target.value)}
@@ -90,12 +81,21 @@ const Login = (props) => {
               />
             </div>
 
-
-        {success && (
-            <div className="mb-6 p-4 text-sm text-green-400 bg-green-800 rounded-lg">
-                {success}
+            <div className="flex items-center mb-6">
+              <div className="flex items-center">
+                <input
+                  id="remember"
+                  type="checkbox"
+                  className="w-4 h-4 rounded bg-gray-700 border-gray-600 focus:ring-blue-600 ring-offset-gray-800"
+                />
+                <label
+                  htmlFor="remember"
+                  className="ml-2 text-sm text-gray-300"
+                >
+                  Remember me
+                </label>
+              </div>
             </div>
-        )}
 
             <input
               type="submit"
